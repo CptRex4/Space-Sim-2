@@ -13,6 +13,8 @@ public class Camera_Control : MonoBehaviour
     float y_change;
     Vector3 pos;        // to be set to new position of camera
 
+    public float min_distance = 5;
+    public float max_distance = 20;
     public float rotation_speed = 1;
     public float initial_distance = 10;
 
@@ -36,6 +38,12 @@ public class Camera_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distance -= Input.mouseScrollDelta.y;
+        if (distance < min_distance)
+            distance = min_distance;
+        if (distance > max_distance)
+            distance = max_distance;
+
         if (Input.GetKeyDown(KeyCode.Mouse1))   // runs only once after rmb is held
         {
             mouse_pos = Input.mousePosition;    // initial position of mouse as rmb starts being held
@@ -53,15 +61,15 @@ public class Camera_Control : MonoBehaviour
             if (phi < 5)
                 phi = 5;
 
-            // use cylindric coordinate to cartesian coordinate formulas to get the new xyz position of the camera
-            pos.x = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);    // x = rsin(phi)cos(theta)
-            pos.z = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Sin(Mathf.Deg2Rad * theta);    // z = rsin(phi)sin(theta) (y is up instead of z here)
-            pos.y = -distance * Mathf.Cos(Mathf.Deg2Rad * phi);                                              // y = rcos(phi)
-
-            cam.transform.position = pos;   // set the camera's position
-            cam.transform.LookAt(Vector3.zero); // set the camera to look at (0, 0, 0)
-            
             mouse_pos = Input.mousePosition;    // get this frame's mous pos in preparation for next frame
         }
+
+        // use cylindric coordinate to cartesian coordinate formulas to get the new xyz position of the camera
+        pos.x = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);    // x = rsin(phi)cos(theta)
+        pos.z = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Sin(Mathf.Deg2Rad * theta);    // z = rsin(phi)sin(theta) (y is up instead of z here)
+        pos.y = -distance * Mathf.Cos(Mathf.Deg2Rad * phi);                                              // y = rcos(phi)
+
+        cam.transform.position = pos;   // set the camera's position
+        cam.transform.LookAt(Vector3.zero); // set the camera to look at (0, 0, 0)
     }
 }
