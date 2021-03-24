@@ -8,7 +8,7 @@ public class Planet_Rotation : MonoBehaviour
 
     GameObject earth;
     Game_Time clock_script;
-    int theta;
+    float theta;
 
     public GameObject clock;
 
@@ -23,7 +23,7 @@ public class Planet_Rotation : MonoBehaviour
     {
         clock_script = clock.GetComponent<Game_Time>();
 
-        theta = (int)(15 * (clock_script.hours + clock_script.minutes / 60));
+        theta = 15 * (clock_script.hours + clock_script.minutes / 60);
 
         earth.transform.rotation = Quaternion.Euler(0, theta, 0);
 
