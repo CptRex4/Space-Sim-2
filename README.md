@@ -6,7 +6,7 @@ Allison: Data Analysis and Visualization of Satalites
 
 Will: Earth Object, Time, Sun
 
-Ben: Saalite Models/ UI
+Ben: Satalite Models/ UI
 
 Adam: User Controls and Mechanis of Satalites
 
