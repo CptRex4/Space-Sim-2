@@ -67,7 +67,7 @@ public class Camera_Control : MonoBehaviour
         // use cylindric coordinate to cartesian coordinate formulas to get the new xyz position of the camera
         pos.x = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);    // x = rsin(phi)cos(theta)
         pos.z = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Sin(Mathf.Deg2Rad * theta);    // z = rsin(phi)sin(theta) (y is up instead of z here)
-        pos.y = -distance * Mathf.Cos(Mathf.Deg2Rad * phi);                                              // y = rcos(phi)
+        pos.y = -distance * Mathf.Cos(Mathf.Deg2Rad * phi);                                      // y = rcos(phi)
 
         cam.transform.position = pos;   // set the camera's position
         cam.transform.LookAt(Vector3.zero); // set the camera to look at (0, 0, 0)

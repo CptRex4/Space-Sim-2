@@ -23,7 +23,7 @@ public class Planet_Rotation : MonoBehaviour
         clock_script = clock.GetComponent<Game_Time>();
 
         // find the angle of the Earth in degrees from the current hour and minutes
-        theta = 15 * (clock_script.hours + clock_script.minutes / 60);
+        theta = -15 * (clock_script.hours + clock_script.minutes / 60);
 
         // apply the rotation to the Earth
         earth.transform.rotation = Quaternion.Euler(0, theta, 0);
