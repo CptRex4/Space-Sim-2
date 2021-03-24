@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Game_Time : MonoBehaviour
 {
-    int hours;
-    int days;
-    int year;
+    public float minutes;
+    public int hours;
+    public int days;
+    public int year;
     float game_time;
 
     // Start is called before the first frame update
     void Start()
     {
+        minutes = 0.0f;
         hours = 0;
         days = 1;
         year = 2021;
@@ -22,9 +24,10 @@ public class Game_Time : MonoBehaviour
     void Update()
     {
         game_time += Time.deltaTime;
-
-        if (game_time > 1.0f)
+        minutes += Time.deltaTime * 60;
+        if (game_time >= 1.0f)
         {
+            minutes = 0;
             hours++;
             game_time = 0.0f;
 
