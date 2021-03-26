@@ -5,7 +5,7 @@ using UnityEngine;
 public class Satellite_Orbit : MonoBehaviour
 {
     float earth_rad;
-    static float mu = 6.673f * 5.972f * Mathf.Pow(10, 13);
+    static float mu = 6.673f * 5.972f * Mathf.Pow(10, 24 - 11 - 5 * 3); // G * M_E * (10^(-5))^3
     float ra;
     float rp;
     float a;
@@ -63,7 +63,7 @@ public class Satellite_Orbit : MonoBehaviour
     void eccentric_anomaly_angle(float time) 
     {
         float e_deg = e * Mathf.Rad2Deg;
-        M = 2 * Mathf.PI * time / (period * 60.0f);
+        M = n * time; //2 * Mathf.PI * time / (period * 60.0f);
         E = M;
 
         for (int i = 0; i < repititions; i++)
