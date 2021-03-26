@@ -5,6 +5,7 @@ using UnityEngine;
 public class Game_Time : MonoBehaviour
 {
     // time variables
+    public float total_seconds; // The total game-world seconds since the start of the program
     public float minutes;
     public int hours;
     public int days;
@@ -16,6 +17,7 @@ public class Game_Time : MonoBehaviour
     void Start()
     {
         // initial values of time variables
+        total_seconds = 0.0f;
         minutes = 0.0f;
         hours = 0;
         days = 1;
@@ -29,7 +31,9 @@ public class Game_Time : MonoBehaviour
     {
         game_time += Time.deltaTime;    // increase game_time by the time since last frame
         minutes += Time.deltaTime * 60; // since 1s is 1 hour, you can multiply a fraction of time by 60 to get minutes
-        
+        total_seconds += Time.deltaTime * 3600;
+
+
         if (game_time >= 1.0f)  // runs once per second
         {
             minutes = 0;    // reset minutes
