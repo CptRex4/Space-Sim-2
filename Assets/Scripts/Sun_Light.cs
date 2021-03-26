@@ -15,6 +15,7 @@ public class Sun_Light : MonoBehaviour
     void Start()
     {
         sun_srpt = sun.GetComponent<Sun_Script>();
+        Selection.test();
     }
 
     // Update is called once per frame
