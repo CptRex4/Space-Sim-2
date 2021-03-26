@@ -47,13 +47,8 @@ public class Satellite_Orbit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Calculate quaternions for (inc, omega, w)
-        q_w = Quaternion.Euler(0f, 0f, w);          // rotate w radians about y-axis
-        q_inc = Quaternion.Euler(0f, inc, 0f);      // rotate inc radians about x-axis
-        q_omega = Quaternion.Euler(0f, 0f, omega);  // rotate omega radians about y-axis
-
-        // Calculate the orientation matrix for the orbital plane
-        ECI_mat = Matrix4x4.Rotate(q_omega) * Matrix4x4.Rotate(q_inc) * Matrix4x4.Rotate(q_w);
+        // Calculate the initial orientation of the orbit
+        update_orientation();
 
         // Defining the values of the orbital parameters
         ra = earth_rad + apogee / 100000.0f;
@@ -75,6 +70,9 @@ public class Satellite_Orbit : MonoBehaviour
         // Update the orbit in the 2D plane
         new_orbit_2D();
 
+        // Update the orientation of the orbit (probably inefficient; should be changed to only update when needed)
+        update_orientation();
+
         // Reorient the plane of the orbit in 3D
         transform.position = ECI_mat.MultiplyVector(pos);
     }
@@ -85,6 +83,18 @@ public class Satellite_Orbit : MonoBehaviour
         eccentric_anomaly_angle(game_time.total_seconds);
         pos.x = a * (Mathf.Cos(E) - e);
         pos.z = b * Mathf.Sin(E);
+    }
+
+    // Calculate a new orientation
+    void update_orientation()
+    {
+        // Calculate quaternions for (inc, omega, w)
+        q_w = Quaternion.Euler(0f, w, 0f);          // rotate w radians about y-axis
+        q_inc = Quaternion.Euler(inc, 0f, 0f);      // rotate inc radians about x-axis
+        q_omega = Quaternion.Euler(0f, omega, 0f);  // rotate omega radians about y-axis
+
+        // Calculate the orientation matrix for the orbital plane
+        ECI_mat = Matrix4x4.Rotate(q_omega) * Matrix4x4.Rotate(q_inc) * Matrix4x4.Rotate(q_w);
     }
 
     //This iterativelly calculates the True Anomaly E
