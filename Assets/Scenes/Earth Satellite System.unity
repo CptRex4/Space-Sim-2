@@ -656,7 +656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   apogee: 672548
   perigee: 108182
-  period: 41449.94
+  period: 2000
   time: 0
   clock: {fileID: 0}
 --- !u!135 &1340357194
