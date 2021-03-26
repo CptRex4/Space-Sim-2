@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Selection : MonoBehaviour
+public class Satellite_Selector : MonoBehaviour
 {
+    GameObject satellite;
 
-    public static GameObject selected;
-    public GameObject nul;
+    public int id;
 
     // Start is called before the first frame update
     void Start()
     {
-        selected = nul;
+        satellite = this.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
     }
-
-    public static void new_selection(GameObject sat)
+    void OnMouseDown()
     {
-        selected = sat;
+        Camera_Control.change_target(satellite.GetComponent<Satellite_Orbit>());
     }
 }
