@@ -655,9 +655,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dda811e1a3be940afb62348f9f7cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apogee: 672548
-  perigee: 108182
-  inc: 60
+  pos: {x: 0, y: 0, z: 0}
+  vel: {x: 0, y: 0, z: 0}
+  e: 0.2
+  M_0: 0
+  n: 11.25
+  inc: 30
   omega: 0
   w: 0
   clock: {fileID: 0}
