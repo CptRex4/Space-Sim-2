@@ -9,7 +9,7 @@ public class Sun_Script : MonoBehaviour
     Vector3 pos;
     Game_Time clock_script;
     float distance;
-    float phi;
+    public float phi;
     int day;
     float theta;
     int days_from_perihelion;
