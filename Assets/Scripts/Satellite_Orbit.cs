@@ -7,12 +7,14 @@ public class Satellite_Orbit : MonoBehaviour
     /*** Variables ***/
 
     // Physical Constants
-    //static float earth_rad = 63.71f; // R_E * 10^(-5) (unity distance)
-    static float mu = 6.673f * 5.972f * Mathf.Pow(10, 24 - 11 - 5 * 3); // G * M_E * (10^(-5))^3 (unity distance)
+    static float earth_rad = 6378137f; // Radius of the earth in meters
+    static float mu = 0.3986004418f; // G * M_E * (10^(-5))^3 (unity distance conversion)
 
     // Private Orbital Parameters
     float a;    // Semimajor axis in unity distance units
     float b;    // Semiminor axis in unity distance units
+    float ra;   // Apogee radius in unity distance units
+    float rp;   // Perigee radius in unity distance units
     float E;    // True anomilly in radians
     float M;    // Mean anomilly in radians
     Quaternion q_w,     // w quaternion
@@ -21,8 +23,9 @@ public class Satellite_Orbit : MonoBehaviour
     Matrix4x4 ECI_mat;  // ECI orientation matrix
 
     // Helpful Public Variables
-    public float ra;   // Apogee radius in meters
-    public float rp;   // Perigee radius in meters
+    public float apogee;    // Apogee altitude in meters
+    public float perigee;   // Perigee altitude in meters
+    public float period;    // Period in minutes
 
     // Calulation Variables
     int repititions = 100;  // Number of iterations to aproximate E
@@ -30,9 +33,6 @@ public class Satellite_Orbit : MonoBehaviour
     public Vector3 vel;     // Velocity of the satellite
 
     // Public Orbital Parameters
-    //public float apogee;
-    //public float perigee;
-    //public float period;
     public float e;     // Eccentricity; < 0.25 for LEO
     public float M_0;   // Initial mean anomilly in degrees
     public float n;     // Mean motion in revolutions/day; > 11.25 for LEO
@@ -56,14 +56,6 @@ public class Satellite_Orbit : MonoBehaviour
 
         // Calculate the initial axis parameters
         update_axes();
-
-        // Defining the values of the orbital parameters
-        //ra = earth_rad + apogee / 100000.0f;
-        //rp = earth_rad + perigee / 100000.0f;
-        //a = (ra + rp) / 2;
-        //b = Mathf.Sqrt(ra * rp);
-        //e = ra / a - 1;
-        //n = Mathf.Sqrt(mu / Mathf.Pow(a, 3));
 
         // Getting game_time
         // game_time.total_seconds is the total game-world seconds since the start of the program
@@ -118,9 +110,10 @@ public class Satellite_Orbit : MonoBehaviour
         rp = a * (1 - e);
         b = Mathf.Sqrt(ra * rp);
 
-        // Convert (ra, rp) to meters
-        ra *= 100000f;
-        rp *= 100000f;
+        // Calculate helpful pulbic variables
+        apogee = ra * 100000f - earth_rad;      // Convert from unity distance to meters (10^5)
+        perigee = rp * 100000f - earth_rad;
+        period = (24f * 60f) / n;
     }
 
     //This iterativelly calculates the True Anomaly E
