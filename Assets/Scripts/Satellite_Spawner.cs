@@ -19,7 +19,6 @@ public class Satellite_Spawner : MonoBehaviour
     {
         if (name_id == 1)   // TEMPORARY FOR TESTING
         {
-            print("new");
             // the following code should only run if new satellite button is pressed
 
             // take a line of input from the .txt and separate it into important variables
