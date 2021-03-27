@@ -566,9 +566,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   min_distance: 70
-  max_distance: 400
+  max_distance: 200
   rotation_speed: 0.2
-  initial_distance: 120
 --- !u!45 &963194230
 Skybox:
   m_ObjectHideFlags: 0
@@ -638,6 +637,7 @@ GameObject:
   - component: {fileID: 1340357193}
   - component: {fileID: 1340357199}
   - component: {fileID: 1340357198}
+  - component: {fileID: 1340357200}
   m_Layer: 0
   m_Name: Satellite
   m_TagString: Untagged
@@ -696,7 +696,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ee3aa9c34feb9364581774d0d7641cd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -889,7 +889,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1374,7 +1374,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 10000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -1639,7 +1639,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1692,7 +1692,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5512,3 +5512,15 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1340357200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340357192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a63ba3b1b60b94eb5b291d55faa370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

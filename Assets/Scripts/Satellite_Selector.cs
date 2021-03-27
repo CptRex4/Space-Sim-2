@@ -6,8 +6,6 @@ public class Satellite_Selector : MonoBehaviour
 {
     GameObject satellite;
 
-    public int id;
-
     // Start is called before the first frame update
     void Start()
     {
