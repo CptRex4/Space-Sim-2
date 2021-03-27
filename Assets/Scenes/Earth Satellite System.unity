@@ -658,11 +658,13 @@ MonoBehaviour:
   apogee: 0
   perigee: 0
   period: 0
+  altitude: 0
+  speed: 0
   pos: {x: 0, y: 0, z: 0}
   vel: {x: 0, y: 0, z: 0}
   e: 0.2
   M_0: 0
-  n: 11.25
+  n: 11.3
   inc: 30
   omega: 0
   w: 0
