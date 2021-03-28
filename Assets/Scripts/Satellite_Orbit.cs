@@ -69,6 +69,11 @@ public class Satellite_Orbit : MonoBehaviour
     GradientAlphaKey[] altitude_grad_alpha;
     ParticleSystem particles;
 
+    //--------------------------------------------------LAST RESORT---------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // jank position offsets
+    //--LAST RESORT-- public float y_offset; // offset's the entire ellipse up or down --------------------------------------------------
+
     /*** Events ***/
 
     // Start is called before the first frame update
@@ -141,6 +146,10 @@ public class Satellite_Orbit : MonoBehaviour
         particles = this.gameObject.GetComponent<ParticleSystem>();
         var color_over_time = particles.colorOverLifetime;
         color_over_time.enabled = true;
+
+        //--------------------------------------------------LAST RESORT---------------------------------------------------------------------
+        // ---------------------------------------------------------------------------------------------------------------------------------
+        //y_offset = 0;   // the y offset is 0 until changed by the user
     }
 
     // Update the color gradient of the satellite
@@ -165,6 +174,11 @@ public class Satellite_Orbit : MonoBehaviour
 
         // Rotate into the ECI frame
         pos = ECI_mat.MultiplyVector(pos);
+
+        //--------------------------------------------------LAST RESORT---------------------------------------------------------------------
+        // ---------------------------------------------------------------------------------------------------------------------------------
+        // jank offset
+        //pos.y += y_offset;  // offset the position by a y value
     }
 
     // Calculate the velocity from the orbital parameters and ECI matrix (in unity units)
