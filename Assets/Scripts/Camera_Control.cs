@@ -7,7 +7,7 @@ public class Camera_Control : MonoBehaviour
     GameObject cam;     // camera object
     float theta;        // degrees from 0 (xz)
     float phi;          // degrees from -90 (y)
-    float distance;     // distance between camera and camera focus point
+    static float distance;     // distance between camera and camera focus point
     Vector3 mouse_pos;  // position of the mouse during last frame
     float x_change;     // difference in x between mouse pos in last frame and current mouse pos
     float y_change;
@@ -15,11 +15,12 @@ public class Camera_Control : MonoBehaviour
     static bool sat_selected;  // if a satellite is currently selected
     static Satellite_Orbit current_sat;  // satellite id camera is focused on
     static Vector3 sat_pos; // pos of satellite camera is focused on
+    Vector3 scale;
 
     public float min_distance = 5;
     public float max_distance = 20;
     public float rotation_speed = 1;
-    public float initial_distance = 10;
+    static public float initial_distance = 120;
 
     // Start is called before the first frame update
     void Start()
@@ -42,13 +43,15 @@ public class Camera_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distance -= 10 * Input.mouseScrollDelta.y;
+        if (distance < min_distance)
+            distance = min_distance;
+        if (distance > max_distance)
+            distance = max_distance;
+
         if (!sat_selected)
         {
-            distance -= Input.mouseScrollDelta.y;
-            if (distance < min_distance)
-                distance = min_distance;
-            if (distance > max_distance)
-                distance = max_distance;
+            
 
             if (Input.GetKeyDown(KeyCode.Mouse1))   // runs only once after rmb is held
             {
@@ -70,7 +73,7 @@ public class Camera_Control : MonoBehaviour
                 mouse_pos = Input.mousePosition;    // get this frame's mous pos in preparation for next frame
             }
 
-            // use cylindric coordinate to cartesian coordinate formulas to get the new xyz position of the camera
+            // use spherical coordinate to cartesian coordinate formulas to get the new xyz position of the camera
             pos.x = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);    // x = rsin(phi)cos(theta)
             pos.z = distance * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Sin(Mathf.Deg2Rad * theta);    // z = rsin(phi)sin(theta) (y is up instead of z here)
             pos.y = -distance * Mathf.Cos(Mathf.Deg2Rad * phi);                                      // y = rcos(phi)
@@ -81,20 +84,30 @@ public class Camera_Control : MonoBehaviour
         else
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
                 sat_selected = false;
+                mouse_pos = Input.mousePosition;    // initial position of mouse as rmb starts being held
+            }
+            
             cam.transform.LookAt(Vector3.zero);
 
-
-            float r, t, p; // rho, theta, phi
-            r = Mathf.Sqrt(Mathf.Pow(sat_pos.x, 2) + Mathf.Pow(sat_pos.z, 2) + Mathf.Pow(sat_pos.y, 2));    // rho = sqrt(x^2 + y^2 + z^2)
-            r += 10;    // so camera is not directly on top of satellite
-            p = Mathf.Acos(sat_pos.y / r);  // phi = arccos(y / rho) (radians)
-            t = Mathf.Asin(sat_pos.z / (r * Mathf.Sin(p)));  // theta = arcsin(z/(rho*sin(phi)))
-            pos.x = r * Mathf.Sin(p) * Mathf.Cos(t);
-            pos.z = r * Mathf.Sin(p) * Mathf.Sin(t);
-            pos.y = r * Mathf.Cos(p);
-
+            pos = current_sat.pos;
+            scale.Set(distance, distance, distance);
+            scale.Set(1.2f, 1.2f, 1.2f);
+            pos.Scale(scale);
             cam.transform.position = pos;
+
+            if (pos.magnitude == 0)
+                phi = 0;
+            else
+                phi = (Mathf.PI - Mathf.Acos(pos.y / pos.magnitude)) * Mathf.Rad2Deg;
+
+            if (pos.x == 0)
+                theta = 0;
+            else
+                theta = (Mathf.Rad2Deg * Mathf.Atan2(pos.z, pos.x));
+            
+
         }
     }
 
