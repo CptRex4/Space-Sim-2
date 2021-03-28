@@ -6,7 +6,7 @@ public class Satellite_Controller : MonoBehaviour
 {
     Satellite_Orbit orbit_script;
     float time_since_input;
-    public float input_buffer = 0.1f;
+    public float input_buffer = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,8 @@ public class Satellite_Controller : MonoBehaviour
     void Update()
     {
         time_since_input += Time.deltaTime;
-
+        print(this.gameObject.GetInstanceID());
+        print(Satellite_Selector.selected_sat_id);
         if (Input.GetKey(KeyCode.UpArrow) && this.gameObject.GetInstanceID() == Satellite_Selector.selected_sat_id && time_since_input >= input_buffer)
         {
             time_since_input = 0.0f;
