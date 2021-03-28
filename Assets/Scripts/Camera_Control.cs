@@ -86,6 +86,7 @@ public class Camera_Control : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 sat_selected = false;
+                Satellite_Selector.selected_sat_id = 0;
                 mouse_pos = Input.mousePosition;    // initial position of mouse as rmb starts being held
             }
             

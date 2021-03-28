@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 348822487301950959}
   - component: {fileID: 348822487301950958}
   - component: {fileID: 348822487301950960}
+  - component: {fileID: 4908748085930710135}
   m_Layer: 0
   m_Name: npc_satellite
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 6618770172340621959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -94,7 +95,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618770172340621959}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -4910,4 +4911,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a63ba3b1b60b94eb5b291d55faa370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  is_selected: 0
   sat_name: 
+--- !u!114 &4908748085930710135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618770172340621959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0298601f8d754449e43f76ce2e4a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debris_prefab: {fileID: 2106712431861977481, guid: 9656098c8c0259643adcd80cca556d58, type: 3}
+  deb_from_collision: 0
