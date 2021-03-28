@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npc_sat_prefab: {fileID: 6618770172340621959, guid: be5279d86265c2f42a13d5dc08ae7bb1, type: 3}
   user_sat_prefab: {fileID: 6618770172340621959, guid: b96b1c5bb1542414f869f5e5aaf8dd20, type: 3}
-  start_satellites: 20
+  start_satellites: 100
   btn: {fileID: 1062201617}
 --- !u!114 &681463382
 MonoBehaviour:

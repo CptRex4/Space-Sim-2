@@ -5,7 +5,7 @@ using System;
 
 public class Debris_Spawner : MonoBehaviour
 {
-    Collider sat_collider;
+    SphereCollider sat_collider;
     public GameObject debris_prefab;
     GameObject new_deb;
     Vector3 deb_pos;
@@ -14,28 +14,39 @@ public class Debris_Spawner : MonoBehaviour
     // Time Variables
     GameObject clock;       // Clock object
     Game_Time game_time;    // Game_Time script
+    float time_since_start;
 
     // Start is called before the first frame update
     void Start()
     {
-        sat_collider = gameObject.GetComponent<Collider>();
+        sat_collider = gameObject.GetComponent<SphereCollider>();
 
         // Getting game_time
         // game_time.total_seconds is the total game-world seconds since the start of the program
         clock = GameObject.Find("Clock");
         game_time = clock.GetComponent<Game_Time>();
+        deb_from_collision = 2;
+        time_since_start = 0.0f;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (sat_collider.isTrigger)
+        time_since_start += Time.deltaTime;
+    }
+    
+    void OnTriggerEnter(Collider col)
+    {
+        print(2);
+        if (time_since_start >= 10.0f)
         {
+            
             for (int i = 0; 1 < deb_from_collision; i++)
             {
                 new_debris();
             }
-            // -------------------------------DELETE SATELLITES------------------------------------
+            Destroy(this.gameObject);
+            Destroy(this);
         }
     }
 
@@ -49,7 +60,7 @@ public class Debris_Spawner : MonoBehaviour
     {
         Satellite_Orbit orbit = deb_obj.GetComponent<Satellite_Orbit>();            // get the orbit script of the debris
         Satellite_Selector selector = deb_obj.GetComponent<Satellite_Selector>();   // get the selector script of the debris
-        deb_pos = deb_obj.transform.position;                                       // get the position (xyz) of the debris
+        deb_pos = gameObject.transform.position;                                       // get the position (xyz) of the debris
 
         // Random Velocity Vecotor in unity distance units per second
         Vector3 deb_vel = UnityEngine.Random.Range(0f, 7823.2f) / 100000f * UnityEngine.Random.insideUnitSphere;    // Convert from meters
