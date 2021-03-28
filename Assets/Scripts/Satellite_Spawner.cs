@@ -20,7 +20,7 @@ public class Satellite_Spawner : MonoBehaviour
     static string[] data;       // Array of all of the satellites. Data for one satellite in one line, first line is junk
                                 // All day is type string
     int sat_count = 1;          // An iterator for the number of satellites initialized
-    
+
     // Start is called before the first frame update
     void Start()
     {
