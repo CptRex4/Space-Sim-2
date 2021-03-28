@@ -45,8 +45,8 @@ df = pd.DataFrame(data, columns=col_names)
 # this with block handles opening and closing the file
 with open('sat_tle_dat.txt') as reader:
     while True:
-        s = list(islice(reader, 3))
-        if not s:  # breaks if the file cannot be sliced ie. has no more lines
+        s = list(islice(reader, 3))     # iterates three lines at a time, data required for one satellite
+        if not s:                       # breaks if the file cannot be sliced ie. has no more lines
             break
 
         # ----- this code is very slow, write to these new formatted lines to a file that is easy to read in C# --------

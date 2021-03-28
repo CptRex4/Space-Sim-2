@@ -57,8 +57,17 @@ public class Satellite_Orbit : MonoBehaviour
     public float w;     // Argument of perigree in degrees
 
     // Time Variables
-    GameObject clock;    // Clock object
-    Game_Time game_time;        // Game_Time script
+    GameObject clock;       // Clock object
+    Game_Time game_time;    // Game_Time script
+
+    // Color Variables
+    Gradient final_grad;
+    GradientColorKey[] final_grad_color;
+    GradientAlphaKey[] final_grad_alpha;
+    Gradient altitude_grad;
+    GradientColorKey[] altitude_grad_color;
+    GradientAlphaKey[] altitude_grad_alpha;
+    ParticleSystem particles;
 
     // Color Variables
     Gradient final_grad;

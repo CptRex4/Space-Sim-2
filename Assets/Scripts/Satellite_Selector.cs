@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Satellite_Selector : MonoBehaviour
 {
+
     public bool is_selected;
     GameObject satellite;
     public string sat_name;
