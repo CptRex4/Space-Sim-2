@@ -11,6 +11,9 @@ public class Satellite_Spawner : MonoBehaviour
 
     public GameObject npc_sat_prefab;
     public GameObject user_sat_prefab;
+    static float time_since_spawn;
+    static float spawn_interval;
+    Game_Time time_script;
     public int start_satellites = 5;
     int num_sats;  //Number of satellites
     //static int MAX_SAT = 4798; //The total number of satellites in the database
@@ -24,8 +27,20 @@ public class Satellite_Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        time_since_spawn = 0.0f;
+        spawn_interval = 5.0f;
         parse_sat_dat_out();
         btn.onClick.AddListener(generate_user_satellite);
+    }
+
+    private void Update()
+    {
+        time_since_spawn += Time.deltaTime;
+        if (time_since_spawn >= spawn_interval)
+        {
+            time_since_spawn = 0.0f;
+            generate_npc_satellite();
+        }
     }
 
     void generate_npc_satellite()
