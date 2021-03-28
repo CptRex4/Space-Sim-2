@@ -34,10 +34,19 @@ public class Satellite_Orbit : MonoBehaviour
     public float altitude;  // Altitude in kilometers
     public float speed;     // Speed in kilometers/second
 
+    // Control Parameters
+    public Vector3 orientation; // Orientation opposite to the satelite thruster (in the ECI frame)
+    public float deltaV_budget; // Total deltaV available to the player (in km/s)
+    float rotation_speed;       // Speed at which you can rotate a satelite (in rad/s)
+    float v_rel;                // Exhaust velocity of propelant (in unity distance per second)
+    float m_dot;                // Mass exhaust rate of the propelant (in kg/s)
+    float m_sat;                // Mass of the satellite without fuel (in kg)
+    float m_tot;                // Total mass of the satellite and fuel remaining (in kg)
+
     // Calulation Variables
     int repititions = 100;  // Number of iterations to aproximate E
-    public Vector3 pos;     // Position of the satellite
-    public Vector3 vel;     // Velocity of the satellite
+    public Vector3 pos;     // Position of the satellite in the ECI frame
+    public Vector3 vel;     // Velocity of the satellite in the ECI frame
 
     // Public Orbital Parameters
     public float e;     // Eccentricity; < 0.25 for LEO
@@ -62,6 +71,9 @@ public class Satellite_Orbit : MonoBehaviour
         // Calculate the initial axis parameters
         update_axis_variables();
 
+        // Compute the deltaV budget
+        compute_deltaV_budget();
+
         // Getting game_time
         // game_time.total_seconds is the total game-world seconds since the start of the program
         clock = GameObject.Find("Clock");
@@ -71,29 +83,61 @@ public class Satellite_Orbit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Update the orbit in the 2D plane
-        new_orbit_2D();
-
         /*** Test Code: This is inefficient and should only be used in small-scale testing ***/
         update_orientation();
         update_axis_variables();
         update_trajectory_variables();
+        
+        // Compute the True Anomilly
+        eccentric_anomaly_angle(game_time.total_seconds);
 
-        // Reorient the plane of the orbit in 3D
-        pos = ECI_mat.MultiplyVector(pos);
+        // Compute the position of the satellite
+        compute_pos_vec();
+
+        // Compute the velocity of the satellite
+        //compute_velocity_vec();
+
+        // Update the position of the satellite object
         transform.position = pos;
     }
 
     // Calculates the x and z coordinates (P and Q in perifocal coordinates) using E
-    void new_orbit_2D() 
+    void compute_pos_vec() 
     {
-        // Compute the True Anomilly
-        eccentric_anomaly_angle(game_time.total_seconds);
-
         // Compute the 2D position of the satellite
         pos.x = a * (Mathf.Cos(E) - e);
         pos.z = b * Mathf.Sin(E);
         pos.y = 0;
+
+        // Rotate into the ECI frame
+        pos = ECI_mat.MultiplyVector(pos);
+    }
+
+    // Calculate the velocity from the orbital parameters and ECI matrix (in unity units)
+    void compute_velocity_vec()
+    {
+        // Compute velocity in perifocal coordinates
+        vel.x = -Mathf.Sqrt(mu / p) * Mathf.Sin(E);
+        vel.z = Mathf.Sqrt(mu / p) * (e + Mathf.Cos(E));
+        vel.y = 0;
+
+        // Rotate into the ECI frame
+        vel = ECI_mat.MultiplyVector(vel);
+    }
+
+    //This iterativelly calculates the True Anomaly E
+    void eccentric_anomaly_angle(float time)
+    {
+        // Calculate the current meant anomilly in radians
+        M = (2 * Mathf.PI * n / (24f * 3600f)) * time + Mathf.Deg2Rad * M_0;  // Convert n to radians per second and M_O to radians
+
+        // Initialize E to M and approximate E
+        E = M;
+
+        for (int i = 0; i < repititions; i++)
+        {
+            E = E + (M + e * Mathf.Sin(E) - E) / (1 - e * Mathf.Cos(E));
+        }
     }
 
     // Calculate a new orientation
@@ -119,7 +163,7 @@ public class Satellite_Orbit : MonoBehaviour
         b = Mathf.Sqrt(ra * rp);
 
         // Calculate helpful pulbic variables
-        apogee = ra * 100f - earth_rad;     // Convert from unity distance to kilometers (100)
+        apogee = ra * 100f - earth_rad;     // Convert from unity distance to kilometers (x100)
         perigee = rp * 100f - earth_rad;
         period = (24f * 60f) / n;           // Convert from days to minutes
     }
@@ -136,18 +180,23 @@ public class Satellite_Orbit : MonoBehaviour
         speed = v * 100;
     }
 
-    //This iterativelly calculates the True Anomaly E
-    void eccentric_anomaly_angle(float time) 
+    // Calculate the total remaining deltaV budget for the satelite
+    void compute_deltaV_budget()
     {
-        // Calculate the current meant anomilly in radians
-        M = (2 * Mathf.PI * n / (24f * 3600f)) * time + Mathf.Deg2Rad * M_0;  // Convert n to radians per second and M_O to radians
-
-        // Initialize E to M and approximate E
-        E = M;
-
-        for (int i = 0; i < repititions; i++)
-        {
-            E = E + (M + e * Mathf.Sin(E) - E) / (1 - e * Mathf.Cos(E));
-        }
+        deltaV_budget = v_rel * Mathf.Log(m_tot / m_sat) * 100; // Convert to km/s (x100)
     }
+
+    // compute 
+
+    // 
+    //void add_deltaV()
+    //{
+    //    // Compute the velocity vector
+    //    compute_velocity_vec();
+
+    //    // Compute the deltaV
+    //    Vector3 deltaV = v_rel * 
+
+
+    //}
 }
