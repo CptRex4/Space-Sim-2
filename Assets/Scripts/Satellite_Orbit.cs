@@ -7,8 +7,8 @@ public class Satellite_Orbit : MonoBehaviour
     /*** Variables ***/
 
     // Physical Constants
-    static float earth_rad = 6378.137f; // Radius of the earth in kliometers
-    static float mu = 0.3986004418f; // G * M_E * (10^(-5))^3 (unity distance conversion)
+    public static float earth_rad = 6378.137f;  // Radius of the earth in kliometers
+    public static float mu = 0.3986004418f; // G * M_E * (10^(-5))^3 (unity distance conversion)
 
     // Private Orbital Parameters
     float a;    // Semimajor axis in unity distance units
