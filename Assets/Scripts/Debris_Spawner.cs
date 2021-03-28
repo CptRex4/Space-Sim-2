@@ -52,11 +52,11 @@ public class Debris_Spawner : MonoBehaviour
         deb_pos = deb_obj.transform.position;                                       // get the position (xyz) of the debris
 
         // Random Velocity Vecotor in unity distance units per second
-        Vector3 deb_vel = Random.Range(0f, 7823.2f) / 100000f * Random.insideUnitSphere();  // Convert from meters
+        Vector3 deb_vel = UnityEngine.Random.Range(0f, 7823.2f) / 100000f * UnityEngine.Random.insideUnitSphere;    // Convert from meters
 
         // Compute the three fundamental vectors
         Vector3 h_vec = Vector3.Cross(deb_vel, deb_pos);    // Specific angular momentum (unity distance units); Flip cross-product for left-handed coordinate system
-        Vector3 e_vec = ( (deb_vel.sqrMagnitude - orbit.mu / deb_pos.magnitude) * deb_pos - Vector3.Dot(deb_pos, deb_vel) * deb_vel) / orbit.mu;    // Eccentricity vector
+        Vector3 e_vec = ( (deb_vel.sqrMagnitude - Satellite_Orbit.mu / deb_pos.magnitude) * deb_pos - Vector3.Dot(deb_pos, deb_vel) * deb_vel) / Satellite_Orbit.mu;    // Eccentricity vector
         Vector3 n_vec = Vector3.Cross(h_vec, Vector3.up);   // Node vector (unity distance units); Flip cross-product for left-handed coordinate system
 
         // Name                (String)
@@ -76,16 +76,16 @@ public class Debris_Spawner : MonoBehaviour
         orbit.w = Mathf.Acos(Vector3.Dot(n_vec, e_vec) / (n_vec.magnitude * e_vec.magnitude)) * (e_vec.y > 0 ? 1f : -1f);   // Argument of perigee in degrees
 
         // Extra calculations
-        float p = h_vec.sqrMagnitude / orbit.mu;    // Semilatus rectum in unity distance units
-        float a = p / (1f - orbit.e * orbit.e);      // Semimajor axis in unity distance units
+        float p = h_vec.sqrMagnitude / Satellite_Orbit.mu;  // Semilatus rectum in unity distance units
+        float a = p / (1f - orbit.e * orbit.e);             // Semimajor axis in unity distance units
 
         // Calculate mean motion in revolutions per day
-        orbit.n = Mathf.Sqrt(orbit.mu / Mathf.Pow(a, 3)) * (24f * 3600f) / (2f * Mathf.PI);    // Convert to revolutions per day
+        orbit.n = Mathf.Sqrt(Satellite_Orbit.mu / Mathf.Pow(a, 3)) * (24f * 3600f) / (2f * Mathf.PI);   // Convert to revolutions per day
 
         // True anomaly at epoch in radians
         float E_0 = Mathf.Acos(Vector3.Dot(deb_pos, e_vec) / (deb_pos.magnitude * e_vec.magnitude)) * (Vector3.Dot(deb_pos, deb_vel) > 0 ? 1f : -1f);
 
         // Calculate the mean anomaly at epoch in degrees
-        orbit.M_0 = Mathf.Rad2Deg * (E_0 - orbit.e * Mathf.Sin(E_0)) - 360f * orbit.n * game_time.total_seconds / (24f * 3600f));
+        orbit.M_0 = Mathf.Rad2Deg * (E_0 - orbit.e * Mathf.Sin(E_0)) - 360f * orbit.n * game_time.total_seconds / (24f * 3600f);
     }
 }
