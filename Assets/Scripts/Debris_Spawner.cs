@@ -11,7 +11,7 @@ public class Debris_Spawner : MonoBehaviour
     Vector3 deb_pos;
     Vector3 deb_vel;
     public int deb_from_collision;
-    RandomGenerator num_gen;
+    //RandomGenerator num_gen;
 
     // New Orbital Parameters
     float e;        // Eccentricity
@@ -54,9 +54,9 @@ public class Debris_Spawner : MonoBehaviour
 
         //-------------CHANGE METHOD OF RANDOMIZATION-----------------
         Vector3 v_vec = new Vector3();                  // randomized velocity vector
-        v_vec.x = num_gen.RandomNumber(-4600, 4600);    // x randomized
-        v_vec.y = num_gen.RandomNumber(-4600, 4600);    // y randomized
-        v_vec.z = num_gen.RandomNumber(-4600, 4600);    // z randomized
+        //v_vec.x = num_gen.RandomNumber(-4600, 4600);    // x randomized
+        //v_vec.y = num_gen.RandomNumber(-4600, 4600);    // y randomized
+        //v_vec.z = num_gen.RandomNumber(-4600, 4600);    // z randomized
 
         // 
         Vector3 h_vec;
@@ -75,13 +75,13 @@ public class Debris_Spawner : MonoBehaviour
         //
 
         // asign parsed data to scripts
-        selector.sat_name = "Debris";         // name of satellite
+        selector.sat_name = "Debris"; /*        // name of satellite
         orbit.inc = ;  // inclination of satellite
         orbit.omega = ;  // right of ascension of satellite
         orbit.e = ;  // eccentricity of satellite
         orbit.w = ;  // argument of perigee of satellite
         orbit.M_0 = ;  // mean anomaly of satellite
         orbit.n = ;  // mean motion of satellite
-
+        */
     }
 }
