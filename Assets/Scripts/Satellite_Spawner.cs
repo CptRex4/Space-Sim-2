@@ -28,7 +28,7 @@ public class Satellite_Spawner : MonoBehaviour
     void Start()
     {
         time_since_spawn = 0.0f;
-        spawn_interval = 24.0f;
+        spawn_interval = 5.0f;
         parse_sat_dat_out();
         btn.onClick.AddListener(generate_user_satellite);
     }
