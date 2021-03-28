@@ -57,8 +57,8 @@ public class Satellite_Orbit : MonoBehaviour
     public float w;     // Argument of perigree in degrees
 
     // Time Variables
-    GameObject clock;    // Clock object
-    Game_Time game_time;        // Game_Time script
+    GameObject clock;       // Clock object
+    Game_Time game_time;    // Game_Time script
 
     // Color Variables
     Gradient final_grad;
@@ -88,6 +88,37 @@ public class Satellite_Orbit : MonoBehaviour
         clock = GameObject.Find("Clock");
         game_time = clock.GetComponent<Game_Time>();
 
+        // Initialize a gradient of colors
+        init_colors();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        /*** Test Code: This is inefficient and should only be used in small-scale testing ***/
+        update_orientation();
+        update_axis_variables();
+        update_trajectory_variables();
+
+        // Compute the True Anomilly
+        eccentric_anomaly_angle(game_time.total_seconds);
+
+        // Compute the position of the satellite
+        compute_pos_vec();
+
+        // Compute the velocity of the satellite
+        //compute_velocity_vec();
+
+        // Update the position of the satellite object
+        transform.position = pos;
+
+        // Update the color gradient
+        update_color();
+    }
+
+    // Initalize the color gradient
+    void init_colors()
+    {
         // Create the gradient of color depending on altitude
         altitude_grad_color = new GradientColorKey[2];
         altitude_grad_color[0].color = Color.magenta;
@@ -112,26 +143,9 @@ public class Satellite_Orbit : MonoBehaviour
         color_over_time.enabled = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update the color gradient of the satellite
+    void update_color()
     {
-        /*** Test Code: This is inefficient and should only be used in small-scale testing ***/
-        update_orientation();
-        update_axis_variables();
-        update_trajectory_variables();
-
-        // Compute the True Anomilly
-        eccentric_anomaly_angle(game_time.total_seconds);
-
-        // Compute the position of the satellite
-        compute_pos_vec();
-
-        // Compute the velocity of the satellite
-        //compute_velocity_vec();
-
-        // Update the position of the satellite object
-        transform.position = pos;
-
         // Update the color gradient of the satellite object
         final_grad_color[0].color = final_grad_color[1].color = altitude_grad.Evaluate(altitude / 3000.0f);
         final_grad.SetKeys(final_grad_color, final_grad_alpha);
