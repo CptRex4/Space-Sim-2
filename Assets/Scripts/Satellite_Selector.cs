@@ -5,6 +5,7 @@ using UnityEngine;
 public class Satellite_Selector : MonoBehaviour
 {
     GameObject satellite;
+    public string sat_name;
 
     // Start is called before the first frame update
     void Start()
