@@ -57,8 +57,17 @@ public class Satellite_Orbit : MonoBehaviour
     public float w;     // Argument of perigree in degrees
 
     // Time Variables
-    GameObject clock;    // Clock object
-    Game_Time game_time;        // Game_Time script
+    GameObject clock;       // Clock object
+    Game_Time game_time;    // Game_Time script
+
+    // Color Variables
+    Gradient final_grad;
+    GradientColorKey[] final_grad_color;
+    GradientAlphaKey[] final_grad_alpha;
+    Gradient altitude_grad;
+    GradientColorKey[] altitude_grad_color;
+    GradientAlphaKey[] altitude_grad_alpha;
+    ParticleSystem particles;
 
     /*** Events ***/
 
@@ -78,6 +87,9 @@ public class Satellite_Orbit : MonoBehaviour
         // game_time.total_seconds is the total game-world seconds since the start of the program
         clock = GameObject.Find("Clock");
         game_time = clock.GetComponent<Game_Time>();
+
+        // Initialize a gradient of colors
+        init_colors();
     }
 
     // Update is called once per frame
@@ -99,6 +111,48 @@ public class Satellite_Orbit : MonoBehaviour
 
         // Update the position of the satellite object
         transform.position = pos;
+
+        // Update the color gradient
+        update_color();
+    }
+
+    // Initalize the color gradient
+    void init_colors()
+    {
+        // Create the gradient of color depending on altitude
+        altitude_grad_color = new GradientColorKey[2];
+        altitude_grad_color[0].color = Color.magenta;
+        altitude_grad_color[0].time = 0.0f;
+        altitude_grad_color[1].color = Color.cyan;
+        altitude_grad_color[1].time = 1.0f;
+        altitude_grad_alpha = new GradientAlphaKey[2];
+        altitude_grad_alpha[0].alpha = altitude_grad_alpha[1].alpha = 1.0f;
+        altitude_grad_alpha[0].time = 0.0f;
+        altitude_grad_alpha[1].time = 1.0f;
+        altitude_grad = new Gradient();
+        altitude_grad.SetKeys(altitude_grad_color, altitude_grad_alpha);
+        final_grad = new Gradient();
+        final_grad_color = new GradientColorKey[2];
+        final_grad_alpha = new GradientAlphaKey[2];
+        final_grad_alpha[0].alpha = 1.0f;
+        final_grad_alpha[0].time = 0.0f;
+        final_grad_alpha[1].alpha = 0.0f;
+        final_grad_alpha[1].time = 1.0f;
+        particles = this.gameObject.GetComponent<ParticleSystem>();
+        var color_over_time = particles.colorOverLifetime;
+        color_over_time.enabled = true;
+    }
+
+    // Update the color gradient of the satellite
+    void update_color()
+    {
+        // Update the color gradient of the satellite object
+        final_grad_color[0].color = final_grad_color[1].color = altitude_grad.Evaluate(altitude / 3000.0f);
+        final_grad.SetKeys(final_grad_color, final_grad_alpha);
+        var color_over_time = particles.colorOverLifetime;
+        color_over_time.color = final_grad;
+        var particles_main = particles.main;
+        particles_main.startColor = altitude_grad.Evaluate(altitude / 3000.0f);
     }
 
     // Calculates the x and z coordinates (P and Q in perifocal coordinates) using E

@@ -9,8 +9,8 @@ public class Satellite_Spawner : MonoBehaviour
 {
     // need start position in starter function
 
-    static int name_id;     // temporary for testing
-    public GameObject sat_prefab;
+    public GameObject npc_sat_prefab;
+    public GameObject user_sat_prefab;
     public int start_satellites = 5;
     int num_sats;  //Number of satellites
     //static int MAX_SAT = 4798; //The total number of satellites in the database
@@ -25,17 +25,18 @@ public class Satellite_Spawner : MonoBehaviour
     void Start()
     {
         parse_sat_dat_out();
-        name_id = 1;
-        btn.onClick.AddListener(generate_satellite);
+        btn.onClick.AddListener(generate_user_satellite);
     }
 
-    void generate_satellite()
+    void generate_npc_satellite()
     {
-        //here we get info for a satellite
+        new_sat = Instantiate(npc_sat_prefab, new Vector3(0, 0, 0), Quaternion.identity); // create a new satellite
+        add_sat(new_sat);   // add initial values for the math behind orbital mechanics
+    }
 
-        // Adam, if we can change the 2nd argument to the initial position of the satellite some particle issues will be fixed. this is low priority though
-        new_sat = Instantiate(sat_prefab, new Vector3(0, 0, 0), Quaternion.identity); // create a new satellite
-        name_id++;
+    void generate_user_satellite()
+    {
+        new_sat = Instantiate(user_sat_prefab, new Vector3(0, 0, 0), Quaternion.identity); // create a new satellite
         add_sat(new_sat);   // add initial values for the math behind orbital mechanics
     }
 
@@ -47,7 +48,7 @@ public class Satellite_Spawner : MonoBehaviour
 
         for (int i = 1; i <= start_satellites; i++)   //Starts at line 1 because the first line is header
         {
-            generate_satellite();
+            generate_npc_satellite();
         }
     }
 
