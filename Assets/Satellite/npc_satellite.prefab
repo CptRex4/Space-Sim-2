@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 348822487301950958}
   - component: {fileID: 348822487301950960}
   m_Layer: 0
-  m_Name: satellite
+  m_Name: npc_satellite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,13 +111,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dda811e1a3be940afb62348f9f7cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos: {x: 0, y: 0, z: 0}
   apogee: 672548
   perigee: 108182
+  period: 0
+  altitude: 0
+  speed: 0
+  orientation: {x: 0, y: 0, z: 0}
+  deltaV_budget: 0
+  pos: {x: 0, y: 0, z: 0}
+  vel: {x: 0, y: 0, z: 0}
+  e: 0
+  M_0: 0
+  n: 0
   inc: 0
   omega: 0
   w: 0
-  clock: {fileID: 0}
 --- !u!198 &348822487301950959
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4902,3 +4910,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a63ba3b1b60b94eb5b291d55faa370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sat_name: 
