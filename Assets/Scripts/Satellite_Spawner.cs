@@ -11,7 +11,7 @@ public class Satellite_Spawner : MonoBehaviour
 
     static int name_id;     // temporary for testing
     public GameObject sat_prefab;
-    public int start_satellites = 10;
+    public int start_satellites = 5;
     int num_sats;  //Number of satellites
     //static int MAX_SAT = 4798; //The total number of satellites in the database
     //static int start_user_satellites = 1;
