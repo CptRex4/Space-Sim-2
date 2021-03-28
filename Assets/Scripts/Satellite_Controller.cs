@@ -15,8 +15,6 @@ public class Satellite_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(this.gameObject.GetInstanceID());
-        print(Satellite_Selector.selected_sat_id);
         if (Input.GetKey(KeyCode.UpArrow) && this.gameObject.GetInstanceID() == Satellite_Selector.selected_sat_id)
         {
             orbit_script.inc += 0.009f;
